@@ -19,7 +19,7 @@ class Gradebooks {
   clear(gradebookId) {
     this.gradebooks = [];
   }
-  addRecord(gradebookId, record) {}
+
   addRecord(gradebookId, record) {
     const gradebook = this.gradebooks.find((gb) => gb.id === gradebookId);
     if (!gradebook) {
