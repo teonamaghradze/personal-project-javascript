@@ -134,9 +134,8 @@ class Gradebooks {
       const studentRecords = gradebook.records.filter(
         (record) => record.pupilId === pupilId
       );
-
       if (studentRecords.length > 0) {
-        const studentGroup = this.groups.find(
+        const studentGroup = this.groups.groups.find(
           (group) => group.id === gradebook.groupId
         );
         const student = studentGroup.pupils.find(
@@ -145,10 +144,10 @@ class Gradebooks {
 
         studentInfo.name = student.name;
         studentInfo.records = studentRecords.map((record) => {
-          const teacher = this.teachers.find(
+          const teacher = this.teachers.personnel.find(
             (teacher) => teacher.id === record.teacherId
           );
-          const subject = this.subjects.find(
+          const subject = this.subjects.subjects.find(
             (subject) => subject.id === record.subjectId
           );
 

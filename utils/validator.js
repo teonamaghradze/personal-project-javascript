@@ -16,7 +16,7 @@ export function validateSubject(subject) {
 }
 
 export function validateProfile(profile) {
-  const { name, dateOfBirth, phones, sex } = profile;
+  const { name, dateOfBirth, emails, phones, sex } = profile;
   console.log(typeof name.first !== "string");
 
   if (typeof name.first !== "string") {
@@ -27,11 +27,41 @@ export function validateProfile(profile) {
   if (typeof name.last !== "string") {
     throw new Error("profile last name must be a string");
   }
-  //   typeof dateOfBirth !== "string" ||
-  //   typeof sex !== "string" ||
-  //   !["male", "female"].includes(sex) ||
-  //   !this.validatePhones(phones)
-  // ) {
-  //   throw new Error("Invalid pupil profile format");
-  // }
+
+  if (typeof sex !== "string" || !["male", "female"].includes(sex)) {
+    throw new Error("profile sex must be a string and male/female");
+  }
+
+  const dateOfBirthReg = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+  if (typeof dateOfBirth !== "string" || !dateOfBirthReg.test(dateOfBirth)) {
+    throw new Error(
+      "Invalid date of birth format. Please use DD/MM/YYYY format."
+    );
+  }
+
+  const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (emails) {
+    if (!emailReg.test(emails[0].email))
+      throw new Error(
+        "Invalid email format. Please enter a valid email address."
+      );
+    if (typeof emails[0].primary !== "boolean") {
+      throw new Error("primary must be true or false");
+    }
+  }
+
+  const phonePattern = /^\+995\d{9}$/;
+
+  if (
+    typeof phones[0].phone !== "string" ||
+    !phonePattern.test(phones[0].phone)
+  ) {
+    throw new Error(
+      "Invalid phone number format. Please enter a valid phone number like +995XXXXXXXXX."
+    );
+  }
+  if (typeof phones[0].primary !== "boolean") {
+    throw new Error("primary must be true or false");
+  }
 }

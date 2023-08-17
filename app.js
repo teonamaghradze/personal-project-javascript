@@ -33,17 +33,17 @@ const data = {
     first: "teona",
     last: "magradze",
   },
-  dateOfBirth: "29.09.1994", // format date
+  dateOfBirth: "29/09/1994", // format date
   emails: [
     {
       email: "maghradzeteo@gmail.com",
-      primary: "boolean",
+      primary: true,
     },
   ],
   phones: [
     {
       phone: "+995555281138",
-      primary: "boolean",
+      primary: true,
     },
   ],
   sex: "female", // male or female
@@ -62,17 +62,17 @@ const updatedProfile = {
     first: "julia",
     last: "magradze",
   },
-  dateOfBirth: "29.09", // format date
+  dateOfBirth: "29/09/1555", // format date
   emails: [
     {
       email: "maghradzeteo@gmail.com",
-      primary: "boolean",
+      primary: true,
     },
   ],
   phones: [
     {
-      phone: "+995555281138",
-      primary: "boolean",
+      phone: "+9955552818",
+      primary: "true",
     },
   ],
   sex: "female", // male or female
@@ -96,14 +96,14 @@ const pupilsData = {
     first: "string",
     last: "string",
   },
-  dateOfBirth: "string", // format date
+  dateOfBirth: "25/02/1555", // format date
   phones: [
     {
-      phone: "string",
-      primary: "boolean",
+      phone: "+995555995959",
+      primary: true,
     },
   ],
-  sex: "string", // male OR female
+  sex: "male", // male OR female
   description: "string",
 };
 // all fields are required, except description
@@ -112,7 +112,7 @@ const pupilsData = {
 const pupils = new Pupils();
 
 const pupil = pupils.add(pupilsData);
-// console.log(pupil.id); // should return pupil ID
+console.log(pupil.id); // should return pupil ID
 
 //GROUPS
 
@@ -122,7 +122,7 @@ const room = 236;
 const groupId = groups.add(room);
 
 groups.addPupil(groupId, pupil);
-// console.log(groups);
+console.log(groups);
 
 groups.update(groupId, {
   room: 237,
@@ -139,10 +139,10 @@ const gradebooks = new Gradebooks(groups, teachers, subjects);
 const gradebookId = gradebooks.add(groupId);
 // console.log(gradebooks);
 
-gradebooks.clear();
+// gradebooks.clear();
 // console.log(gradebooks);
 
-const pupilId = pupil.pupilId;
+const pupilId = pupil.id;
 const record = {
   pupilId: pupilId,
   teacherId: teacherId,
@@ -153,4 +153,4 @@ const record = {
 
 gradebooks.addRecord(gradebookId, record);
 
-// console.log(gradebooks);
+gradebooks.read(gradebookId, pupilId);
