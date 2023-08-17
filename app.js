@@ -5,152 +5,119 @@ import Pupils from "./modules/pupils.mjs";
 import Groups from "./modules/groups.mjs";
 import Gradebooks from "./modules/gradebooks.mjs";
 
-//TEST SUBJECTS
-const subjects = new Subjects();
+// //TEST SUBJECTS
+// const subjects = new Subjects();
+// const history = {
+//   title: "History",
+//   lessons: 24,
+// };
 
-const history = {
-  title: "History",
-  lessons: 24,
-};
-const eng = {
-  title: "eng",
-  lessons: 28,
-};
-const subjectId = subjects.add(history);
-const subjectId2 = subjects.add(eng);
+// const subjectId = subjects.add(history);
 
-// subjects.remove(subjectId);
-// console.log(subjects);
+// const teachers = new Teachers();
 
-subjects.verify(history);
-subjects.readAll();
+// const data = {
+//   name: {
+//     first: "string",
+//     last: "string",
+//   },
+//   dateOfBirth: "29/09/1994", // format date
+//   emails: [
+//     {
+//       email: "maghradze@gmail.com",
+//       primary: true,
+//     },
+//   ],
+//   phones: [
+//     {
+//       phone: "+995555667788",
+//       primary: true,
+//     },
+//   ],
+//   sex: "male", // male or female
+//   subjects: [
+//     {
+//       subject: "string", // just name property of subject.
+//     },
+//   ],
+//   description: "string",
+// };
 
-//TEST TEACHERS
-const teachers = new Teachers();
+// const teacherId = teachers.add(data);
 
-const data = {
-  name: {
-    first: "teona",
-    last: "magradze",
-  },
-  dateOfBirth: "29/09/1994", // format date
-  emails: [
-    {
-      email: "maghradzeteo@gmail.com",
-      primary: true,
-    },
-  ],
-  phones: [
-    {
-      phone: "+995555281138",
-      primary: true,
-    },
-  ],
-  sex: "female", // male or female
-  subjects: [
-    {
-      subject: "eng", // just name property of subject.
-    },
-  ],
-  description: "descriptionnnnn",
-};
+// const updatedProfile = {
+//   name: {
+//     first: "teona",
+//     last: "string",
+//   },
+//   dateOfBirth: "29/09/1994", // format date
+//   emails: [
+//     {
+//       email: "maghradze@gmail.com",
+//       primary: true,
+//     },
+//   ],
+//   phones: [
+//     {
+//       phone: "+995555667788",
+//       primary: true,
+//     },
+//   ],
+//   sex: "male", // male or female
+//   subjects: [
+//     {
+//       subject: "string", // just name property of subject.
+//     },
+//   ],
+//   description: "aaaa",
+// };
 
-const teacherId = teachers.add(data);
+// const teacherId2 = teachers.update(teacherId, updatedProfile);
 
-const updatedProfile = {
-  name: {
-    first: "julia",
-    last: "magradze",
-  },
-  dateOfBirth: "29/09/1555", // format date
-  emails: [
-    {
-      email: "maghradzeteo@gmail.com",
-      primary: true,
-    },
-  ],
-  phones: [
-    {
-      phone: "+9955552818",
-      primary: "true",
-    },
-  ],
-  sex: "female", // male or female
-  subjects: [
-    {
-      subject: "eng", // just name property of subject.
-    },
-  ],
-  description: "descriptionnnnn",
-};
+// //PUPILS
+// const pupils = new Pupils();
+// const dataPup = {
+//   name: {
+//     first: "string",
+//     last: "string",
+//   },
+//   dateOfBirth: "15/02/1888", // format date
+//   phones: [
+//     {
+//       phone: "+995555888888",
+//       primary: true,
+//     },
+//   ],
+//   sex: "male", // male OR female
+//   description: "string",
+// };
 
-const teacherId2 = teachers.update(teacherId, updatedProfile);
+// const pupil = pupils.add(dataPup);
+// //groups
 
-// teachers.remove(teacherId);
+// const groups = new Groups();
+// const room = 236;
+// const groupId = groups.add(room);
 
-//
+// groups.addPupil(groupId, pupil);
 
-//PUPILS
-const pupilsData = {
-  name: {
-    first: "string",
-    last: "string",
-  },
-  dateOfBirth: "25/02/1555", // format date
-  phones: [
-    {
-      phone: "+995555995959",
-      primary: true,
-    },
-  ],
-  sex: "male", // male OR female
-  description: "string",
-};
-// all fields are required, except description
+// groups.update(groupId, {
+//   room: 237,
+// });
 
-// Create new Pupil from Pupil's data
-const pupils = new Pupils();
+// //gradebooks
+// const gradebooks = new Gradebooks(groups, teachers, subjects);
 
-const pupil = pupils.add(pupilsData);
-console.log(pupil.id); // should return pupil ID
+// const gradebookId = gradebooks.add(groupId);
 
-//GROUPS
+// const record = {
+//   pupilId: "0",
+//   teacherId: teacherId,
+//   subjectId: subjectId,
+//   lesson: 1,
+//   mark: 9,
+// };
 
-const groups = new Groups();
-const room = 236;
+// gradebooks.addRecord(gradebookId, record);
 
-const groupId = groups.add(room);
-
-groups.addPupil(groupId, pupil);
-console.log(groups);
-
-groups.update(groupId, {
-  room: 237,
-});
-
-groups.read(groupId);
-// console.log(groups);
-
-// console.log(groups.readAll());
-
-//gradeBOOOKs
-
-const gradebooks = new Gradebooks(groups, teachers, subjects);
-const gradebookId = gradebooks.add(groupId);
-// console.log(gradebooks);
-
-// gradebooks.clear();
-// console.log(gradebooks);
-
-const pupilId = pupil.id;
-const record = {
-  pupilId: pupilId,
-  teacherId: teacherId,
-  subjectId: subjectId,
-  lesson: 1,
-  mark: 9,
-};
-
-gradebooks.addRecord(gradebookId, record);
-
-gradebooks.read(gradebookId, pupilId);
+// const students = gradebooks.readAll(gradebookId);

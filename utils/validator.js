@@ -1,12 +1,12 @@
 export function validateSubject(subject) {
-  if (typeof subject !== "object") {
-    throw new Error("Parameter must be an object");
+  if (!subject || typeof subject !== "object") {
+    throw new Error("Parameter must be valid and must be object");
   }
-  if (typeof subject.title !== "string") {
-    throw new Error("subject title must be a string");
+  if (!subject.title || typeof subject.title !== "string") {
+    throw new Error("subject title must be valid and must be a string");
   }
 
-  if (typeof subject.lessons !== "number") {
+  if (!subject.lessons || typeof subject.lessons !== "number") {
     throw new Error("lessons type must be a number");
   }
 
@@ -15,12 +15,32 @@ export function validateSubject(subject) {
   }
 }
 
-export function validateProfile(profile) {
-  const { name, dateOfBirth, emails, phones, sex } = profile;
-  console.log(typeof name.first !== "string");
+function validateEmail(emails) {
+  const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  checkPrimaryUniqueness(emails);
+
+  if (!emailReg.test(emails[0].email))
+    throw new Error(
+      "Invalid email format. Please enter a valid email address."
+    );
+  if (typeof emails[0].primary !== "boolean") {
+    throw new Error("primary must be true or false");
+  }
+}
+
+function checkPrimaryUniqueness(contact) {
+  const contactQuantity = contact.filter((email) => email.primary);
+  if (contactQuantity.length > 1)
+    throw new Error("Primary email and phone should not be more than 1");
+}
+
+export function validateProfile(profile, teacher = false) {
+  const phonePattern = /^\+995\d{9}$/;
+  const dateOfBirthReg = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+  const { name, dateOfBirth, emails, phones, sex, subjects } = profile;
 
   if (typeof name.first !== "string") {
-    console.log(11);
     throw new Error("profile first name must be a string");
   }
 
@@ -32,26 +52,18 @@ export function validateProfile(profile) {
     throw new Error("profile sex must be a string and male/female");
   }
 
-  const dateOfBirthReg = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
   if (typeof dateOfBirth !== "string" || !dateOfBirthReg.test(dateOfBirth)) {
     throw new Error(
       "Invalid date of birth format. Please use DD/MM/YYYY format."
     );
   }
 
-  const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  if (emails) {
-    if (!emailReg.test(emails[0].email))
-      throw new Error(
-        "Invalid email format. Please enter a valid email address."
-      );
-    if (typeof emails[0].primary !== "boolean") {
-      throw new Error("primary must be true or false");
-    }
+  if (teacher) {
+    validateEmail(emails);
+    validateSubjects(subjects);
   }
 
-  const phonePattern = /^\+995\d{9}$/;
+  checkPrimaryUniqueness(phones);
 
   if (
     typeof phones[0].phone !== "string" ||
@@ -64,4 +76,11 @@ export function validateProfile(profile) {
   if (typeof phones[0].primary !== "boolean") {
     throw new Error("primary must be true or false");
   }
+}
+
+function validateSubjects(subjects) {
+  if (!subjects) throw new Error("Subjects must be provided");
+  subjects.forEach((subj) => {
+    if (typeof subj.subject !== "string") throw new Error("must be a string");
+  });
 }

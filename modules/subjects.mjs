@@ -5,20 +5,6 @@ class Subjects {
     this.subjects = [];
   }
 
-  // validateSubject(subject) {
-  //   if (typeof subject.title !== "string") {
-  //     throw new Error("subject title must be a string");
-  //   }
-
-  //   if (typeof subject.lessons !== "number") {
-  //     throw new Error("lessons type must be a number");
-  //   }
-
-  //   if (subject.description && typeof subject.description !== "string") {
-  //     throw new Error("Parameter must be a string");
-  //   }
-  // }
-
   add(subject) {
     validateSubject(subject);
     const subjectId = this.subjects.length.toString();

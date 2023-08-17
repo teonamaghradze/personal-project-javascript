@@ -1,99 +1,3 @@
-// class Gradebooks {
-//   constructor(groups, teachers, subjects) {
-//     this.gradebooks = [];
-//     this.groups = groups;
-//     this.teachers = teachers;
-//     this.subjects = subjects;
-//   }
-
-//   add(groupId) {
-//     const gradebookId = this.gradebooks.length.toString();
-//     this.gradebooks.push({ id: gradebookId, groupId, records: [] });
-//     return gradebookId;
-//   }
-
-//   clear() {
-//     this.gradebooks = [];
-//   }
-
-//   addRecord(gradebookId, record) {
-//     const gradebook = this.gradebooks.find(
-//       (gradebook) => gradebook.id === gradebookId
-//     );
-//     if (!gradebook) {
-//       throw new Error("Gradebook not found");
-//     }
-
-//     const { pupilId, teacherId, subjectId, lesson, mark } = record;
-
-//     const pupil = this.groups
-//       .read(gradebook.groupId)
-//       .pupils.find((pupil) => pupil.id === pupilId);
-//     const teacher = this.teachers.read(teacherId);
-//     const subject = this.subjects.read(subjectId); // Make sure 'read' method exists in the 'Subjects' class
-
-//     if (!pupil || !teacher || !subject) {
-//       throw new Error("Invalid pupil, teacher, or subject");
-//     }
-
-//     gradebook.records.push({
-//       pupil: `${pupil.name.first} ${pupil.name.last}`,
-//       teacher: `${teacher.name.first} ${teacher.name.last}`,
-//       subject: subject.title,
-//       lesson,
-//       mark,
-//     });
-//   }
-
-//   read(gradebookId, pupilId) {
-//     const gradebook = this.gradebooks.find(
-//       (gradebook) => gradebook.id === gradebookId
-//     );
-//     if (!gradebook) {
-//       throw new Error("Gradebook not found");
-//     }
-
-//     const pupil = this.groups
-//       .read(gradebook.groupId)
-//       .pupils.find((pupil) => pupil.id === pupilId);
-//     if (!pupil) {
-//       throw new Error("Pupil not found in the group");
-//     }
-
-//     const records = gradebook.records
-//       .filter(
-//         (record) => record.pupil === `${pupil.name.first} ${pupil.name.last}`
-//       )
-//       .map((record) => ({
-//         teacher: record.teacher,
-//         subject: record.subject,
-//         lesson: record.lesson,
-//         mark: record.mark,
-//       }));
-
-//     return {
-//       name: `${pupil.name.first} ${pupil.name.last}`,
-//       records,
-//     };
-//   }
-
-//   readAll(gradebookId) {
-//     const gradebook = this.gradebooks.find(
-//       (gradebook) => gradebook.id === gradebookId
-//     );
-//     if (!gradebook) {
-//       throw new Error("Gradebook not found");
-//     }
-
-//     return gradebook.records.map((record) => ({
-//       teacher: record.teacher,
-//       subject: record.subject,
-//       lesson: record.lesson,
-//       mark: record.mark,
-//     }));
-//   }
-// }
-
 class Gradebooks {
   constructor(groups, teachers, subjects) {
     this.groups = groups;
@@ -112,9 +16,7 @@ class Gradebooks {
   }
 
   clear() {
-    this.gradebooks.forEach((gradebook) => {
-      gradebook.records = [];
-    });
+    this.gradebooks = [];
   }
 
   addRecord(gradebookId, record) {
@@ -167,34 +69,30 @@ class Gradebooks {
   readAll(gradebookId) {
     if (gradebookId >= 0 && gradebookId < this.gradebooks.length) {
       const gradebook = this.gradebooks[gradebookId];
-      const studentGroup = this.groups.find(
-        (group) => group.id === gradebook.groupId
-      );
+      const studInfo = [];
 
-      return studentGroup.pupils.map((pupil) => {
-        const studentRecords = gradebook.records.filter(
-          (record) => record.pupilId === pupil.id
+      for (const record of gradebook.records) {
+        const pupil = this.groups.groups[0].pupils.find(
+          (p) => p.id === record.pupilId
         );
 
-        return {
-          name: pupil.name,
-          records: studentRecords.map((record) => {
-            const teacher = this.teachers.find(
-              (teacher) => teacher.id === record.teacherId
-            );
-            const subject = this.subjects.find(
-              (subject) => subject.id === record.subjectId
-            );
+        const teacher = this.teachers.personnel.find(
+          (t) => t.id === record.teacherId
+        );
 
-            return {
-              teacher: teacher.name,
-              subject: subject.name,
-              lesson: record.lesson,
-              mark: record.mark,
-            };
-          }),
-        };
-      });
+        const subject = this.subjects.subjects.find(
+          (s) => s.id === record.subjectId
+        );
+
+        studInfo.push({
+          pupil: `${pupil.name.first} ${pupil.name.last}`,
+          teacher: `${teacher.name.first} ${teacher.name.last}`,
+          subject: subject.title,
+          lesson: record.lesson,
+          mark: record.mark,
+        });
+      }
+      return studInfo;
     }
 
     return [];

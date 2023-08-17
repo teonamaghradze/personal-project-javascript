@@ -1,6 +1,6 @@
+"use strict";
 import Personnel from "./personnel.mjs";
 
-("use strict");
 class Pupils extends Personnel {
   constructor() {
     super([]);

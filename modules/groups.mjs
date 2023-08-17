@@ -4,6 +4,8 @@ class Groups {
   }
 
   add(room) {
+    if (!room || typeof room !== "number")
+      throw new Error("Valid room number should be provided");
     const id = Math.random().toString(36).substr(2, 9);
     this.groups.push({ id, room, pupils: [] });
     return id;
