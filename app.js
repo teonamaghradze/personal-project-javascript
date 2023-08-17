@@ -56,9 +56,6 @@ const data = {
 };
 
 const teacherId = teachers.add(data);
-console.log(teacherId);
-console.log(teachers);
-console.log(teachers.read(teacherId));
 
 const updatedProfile = {
   name: {
@@ -88,10 +85,8 @@ const updatedProfile = {
 };
 
 const teacherId2 = teachers.update(teacherId, updatedProfile);
-// console.log(teachers);
 
 // teachers.remove(teacherId);
-console.log(teachers);
 
 //
 
@@ -117,14 +112,7 @@ const pupilsData = {
 const pupils = new Pupils();
 
 const pupil = pupils.add(pupilsData);
-console.log(pupils);
-
-console.log(pupil.id); // should return pupil ID
-// console.log(pupils.update(pupil.id, updatedProfile));
-console.log(pupils);
-
-// console.log(pupils.remove(pupil.id));
-console.log(pupils);
+// console.log(pupil.id); // should return pupil ID
 
 //GROUPS
 
@@ -141,9 +129,9 @@ groups.update(groupId, {
 });
 
 groups.read(groupId);
-console.log(groups);
+// console.log(groups);
 
-console.log(groups.readAll());
+// console.log(groups.readAll());
 
 //gradeBOOOKs
 
@@ -152,16 +140,17 @@ const gradebookId = gradebooks.add(groupId);
 // console.log(gradebooks);
 
 gradebooks.clear();
-console.log(gradebooks);
+// console.log(gradebooks);
 
-// const record = {
-//   pupilId: pupilId,
-//   teacherId: teacherId,
-//   subjectId: subjectId,
-//   lesson: 1,
-//   mark: 9,
-// };
+const pupilId = pupil.pupilId;
+const record = {
+  pupilId: pupilId,
+  teacherId: teacherId,
+  subjectId: subjectId,
+  lesson: 1,
+  mark: 9,
+};
 
-// gradebooks.addRecord(gradebookId, record);
+gradebooks.addRecord(gradebookId, record);
 
 // console.log(gradebooks);
