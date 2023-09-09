@@ -1,15 +1,12 @@
-"use strict";
-
-import { validateProfile } from "../utils/validator.js";
-import Personnel from "./personnel.mjs";
+import { validateProfile, Profile } from "../utils/validator.js";
+import Personnel from "./personnel.js";
 
 class Teachers extends Personnel {
   constructor() {
-    super([]);
-    this.personnel = [];
+    super();
   }
 
-  add(profile) {
+  add(profile: Profile): string {
     validateProfile(profile, true);
     const teacherId = this.personnel.length.toString();
     const teacherWithId = { ...profile, id: teacherId };

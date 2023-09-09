@@ -1,29 +1,33 @@
-import { validateSubject } from "../utils/validator.js";
+import { validateSubject, Subject } from "../utils/validator.js";
 
 class Subjects {
+  private subjects: Subject[];
+
   constructor() {
     this.subjects = [];
   }
 
-  add(subject) {
+  add(subject: Subject): string {
     validateSubject(subject);
     const subjectId = this.subjects.length.toString();
-    const subjWithId = { id: subjectId, ...subject };
+    const subjWithId: Subject = { ...subject, id: subjectId };
+
+    // const subjWithId: Subject = { id: subjectId, ...subject };
     this.subjects.push(subjWithId);
     return subjectId;
   }
 
-  remove(subjectId) {
+  remove(subjectId: string): void {
     this.subjects = this.subjects.filter((subject) => subject.id !== subjectId);
   }
 
-  verify(subject) {
+  verify(subject: Subject): boolean {
     return this.subjects.some(
       (el) => el.title === subject.title && el.lessons === subject.lessons
     );
   }
 
-  readAll() {
+  readAll(): Subject[] {
     return this.subjects.map((subject) => ({
       id: subject.id,
       title: subject.title,

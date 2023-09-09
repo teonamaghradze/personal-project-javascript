@@ -1,30 +1,25 @@
-"use strict";
-import { validateProfile } from "../utils/validator.js";
+import { validateProfile, Profile } from "../utils/validator.js";
 
 class Personnel {
-  constructor(personnel) {
-    this.personnel = personnel;
+  protected personnel: Profile[];
+
+  constructor() {
+    this.personnel = [];
   }
 
-  add(profile) {
+  add(profile: Profile): string {
     validateProfile(profile);
     const personnelId = this.personnel.length.toString();
     const personnelWithId = { ...profile, id: personnelId };
     this.personnel.push(personnelWithId);
-    return personnelWithId;
+    return personnelId;
   }
 
-  read(personnelId) {
-    const personnel = this.personnel.find(
-      (personnel) => personnel.id === personnelId
-    );
-    if (!personnel) {
-      throw new Error("Personnel not found");
-    }
-    return personnel;
+  read(personnelId: string): Profile | undefined {
+    return this.personnel.find((personnel) => personnel.id === personnelId);
   }
 
-  update(personnelId, updatedProfile) {
+  update(personnelId: string, updatedProfile: Profile): void {
     const index = this.personnel.findIndex(
       (personnel) => personnel.id === personnelId
     );
@@ -34,7 +29,7 @@ class Personnel {
     this.personnel[index] = { ...updatedProfile, id: personnelId };
   }
 
-  remove(personnelId) {
+  remove(personnelId: string): void {
     this.personnel = this.personnel.filter(
       (personnel) => personnel.id !== personnelId
     );
