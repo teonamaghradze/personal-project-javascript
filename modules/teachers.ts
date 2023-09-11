@@ -1,8 +1,4 @@
-import {
-  validateProfile,
-  Profile,
-  validateSubject,
-} from "../utils/validator.js";
+import { validateProfile, Profile } from "../utils/validator.js";
 import Personnel from "./personnel.js";
 
 class Teachers extends Personnel {

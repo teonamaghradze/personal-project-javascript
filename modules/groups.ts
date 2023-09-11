@@ -11,7 +11,7 @@ export interface Pupil {
   name: Name;
 }
 
-export class Groups {
+class Groups {
   private groups: Group[];
 
   constructor() {
@@ -31,7 +31,6 @@ export class Groups {
     const group = this.groups.find((group) => group.id === groupId);
     if (group) {
       group.pupils.push(pupil);
-      console.log(pupil, "teona");
     }
   }
 

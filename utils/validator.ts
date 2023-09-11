@@ -1,4 +1,4 @@
-export interface Name {
+interface Name {
   first: string;
   last: string;
 }
@@ -13,7 +13,7 @@ interface Phone {
   primary: boolean;
 }
 
-export interface Subject {
+interface Subject {
   id: string;
   title?: string;
   subject?: string;
@@ -21,7 +21,7 @@ export interface Subject {
   description?: string;
 }
 
-export interface Profile {
+interface Profile {
   id: string;
   name: Name;
   dateOfBirth: string;
@@ -32,7 +32,7 @@ export interface Profile {
   description?: string;
 }
 
-export function validateSubject(subject: Subject): void {
+function validateSubject(subject: Subject): void {
   if (!subject || typeof subject !== "object") {
     throw new Error("Parameter must be valid and must be an object");
   }
@@ -74,8 +74,8 @@ function checkPrimaryUniqueness(contact: { primary: boolean }[]): void {
   }
 }
 
-export function validateProfile(
-  profile: Profile,
+function validateProfile<T extends Profile>(
+  profile: T,
   teacher: boolean = false
 ): void {
   const phonePattern = /^\+995\d{9}$/;
@@ -132,3 +132,13 @@ function validateSubjects(subjects: Subject[]): void {
     }
   });
 }
+
+export {
+  Name,
+  Subject,
+  Profile,
+  validateProfile,
+  validateSubject,
+  Email,
+  Phone,
+};

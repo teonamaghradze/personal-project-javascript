@@ -1,20 +1,13 @@
-import { validateProfile, Profile } from "../utils/validator.js";
+import { Profile } from "../utils/validator.js";
 
-class Personnel {
+abstract class Personnel {
   protected personnel: Profile[];
 
   constructor() {
     this.personnel = [];
   }
 
-  add(profile: Profile): string {
-    validateProfile(profile);
-    const personnelId = this.personnel.length.toString();
-    const personnelWithId: any = { ...profile, id: personnelId };
-    this.personnel.push(personnelWithId);
-    //აქ აბრუნდებდა personnelId-ს
-    return personnelWithId;
-  }
+  abstract add(profile: Profile): Profile | string;
 
   read(personnelId: string): Profile | undefined {
     return this.personnel.find((personnel) => personnel.id === personnelId);

@@ -12,7 +12,6 @@ class Subjects {
     const subjectId = this.subjects.length.toString();
     const subjWithId: Subject = { ...subject, id: subjectId };
 
-    // const subjWithId: Subject = { id: subjectId, ...subject };
     this.subjects.push(subjWithId);
     return subjectId;
   }
