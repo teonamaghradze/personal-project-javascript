@@ -1,6 +1,6 @@
-import { Name } from "./gradebooks";
+import { Name } from "../utils/validator";
 
-interface Group {
+export interface Group {
   id: string;
   room: number;
   pupils: Pupil[];
@@ -11,7 +11,7 @@ export interface Pupil {
   name: Name;
 }
 
-class Groups {
+export class Groups {
   private groups: Group[];
 
   constructor() {
@@ -31,6 +31,7 @@ class Groups {
     const group = this.groups.find((group) => group.id === groupId);
     if (group) {
       group.pupils.push(pupil);
+      console.log(pupil, "teona");
     }
   }
 

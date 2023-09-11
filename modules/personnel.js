@@ -8,7 +8,8 @@ class Personnel {
         const personnelId = this.personnel.length.toString();
         const personnelWithId = Object.assign(Object.assign({}, profile), { id: personnelId });
         this.personnel.push(personnelWithId);
-        return personnelId;
+        //აქ აბრუნდებდა personnelId-ს
+        return personnelWithId;
     }
     read(personnelId) {
         return this.personnel.find((personnel) => personnel.id === personnelId);

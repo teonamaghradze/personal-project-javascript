@@ -1,4 +1,4 @@
-class Groups {
+export class Groups {
     constructor() {
         this.groups = [];
     }
@@ -14,6 +14,7 @@ class Groups {
         const group = this.groups.find((group) => group.id === groupId);
         if (group) {
             group.pupils.push(pupil);
+            console.log(pupil, "teona");
         }
     }
     removePupil(groupId, pupilId) {

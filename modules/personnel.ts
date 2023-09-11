@@ -10,9 +10,10 @@ class Personnel {
   add(profile: Profile): string {
     validateProfile(profile);
     const personnelId = this.personnel.length.toString();
-    const personnelWithId = { ...profile, id: personnelId };
+    const personnelWithId: any = { ...profile, id: personnelId };
     this.personnel.push(personnelWithId);
-    return personnelId;
+    //აქ აბრუნდებდა personnelId-ს
+    return personnelWithId;
   }
 
   read(personnelId: string): Profile | undefined {

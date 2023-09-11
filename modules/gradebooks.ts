@@ -1,9 +1,5 @@
-import { Pupil } from "./groups";
-
-interface Group {
-  id: string;
-  pupils: Pupil[];
-}
+import { Name } from "../utils/validator";
+import { Group } from "./groups";
 
 interface Teacher {
   id: string;
@@ -13,11 +9,6 @@ interface Teacher {
 interface Subject {
   id: string;
   title: string;
-}
-
-export interface Name {
-  first: string;
-  last: string;
 }
 
 interface Record {
@@ -31,13 +22,14 @@ interface Record {
 interface Gradebook {
   groupId: string;
   records: Record[];
+  id: string;
 }
 
 export class Gradebooks {
-  private groups: Group[];
-  private teachers: Teacher[];
-  private subjects: Subject[];
-  private gradebooks: Gradebook[];
+  private groups: Group[] | any;
+  private teachers: Teacher[] | any;
+  private subjects: Subject[] | any;
+  private gradebooks: Gradebook[] | any;
 
   constructor(groups: Group[], teachers: Teacher[], subjects: Subject[]) {
     this.groups = groups;
@@ -47,12 +39,22 @@ export class Gradebooks {
   }
 
   add(groupId: string): number {
-    const gradebook: Gradebook = {
-      groupId,
-      records: [],
-    };
-    this.gradebooks.push(gradebook);
+    let foundGroup: Gradebook = this.groups.groups.find(
+      (gr) => gr.id === groupId
+    );
+
+    foundGroup.records = [];
+    this.gradebooks.push(foundGroup);
+
     return this.gradebooks.length - 1;
+
+    // if (foundGroup) {
+    //   foundGroup.records = [];
+
+    //   this.gradebooks.push(foundGroup);
+
+    //   return this.gradebooks.length - 1;
+    // }
   }
 
   clear(): void {
@@ -79,28 +81,34 @@ export class Gradebooks {
       records: [],
     };
 
-    if (gradebookId >= 0 && gradebookId < this.gradebooks.length) {
+    if (this.gradebooks[gradebookId]) {
       const gradebook = this.gradebooks[gradebookId];
+
       const studentRecords = gradebook.records.filter(
         (record) => record.pupilId === pupilId
       );
+
       if (studentRecords.length > 0) {
-        const studentGroup = this.groups.find(
-          (group) => group.id === gradebook.groupId
+        const studentGroup = this.groups.groups.find(
+          (group) => group.id === gradebook.id
         );
+
         const student = studentGroup?.pupils.find(
-          (pupil) => pupil.id === pupilId
+          (pupil) => pupil.id === pupilId.toString()
         );
 
         if (student) {
           studentInfo.name = `${student.name.first} ${student.name.last}`;
+
           studentInfo.records = studentRecords.map((record) => {
-            const teacher = this.teachers.find(
+            const teacher = this.teachers.personnel.find(
               (teacher) => teacher.id === record.teacherId
             );
-            const subject = this.subjects.find(
+
+            const subject = this.subjects.subjects.find(
               (subject) => subject.id === record.subjectId
             );
+            console.log(subject, "sadsadasdasdassdasdasdasdasdddddddddddddd");
 
             return {
               teacher: `${teacher?.name.first} ${teacher?.name.last}`,
@@ -112,22 +120,28 @@ export class Gradebooks {
         }
       }
     }
-
     return studentInfo;
   }
 
   readAll(gradebookId: number) {
     if (gradebookId >= 0 && gradebookId < this.gradebooks.length) {
       const gradebook = this.gradebooks[gradebookId];
+
       const studInfo = [];
-
       for (const record of gradebook.records) {
-        const pupilGroup = this.groups[0];
-        const pupil = pupilGroup?.pupils.find((p) => p.id === record.pupilId);
+        const pupilGroup = this.groups.groups[0];
 
-        const teacher = this.teachers.find((t) => t.id === record.teacherId);
+        console.log(pupilGroup);
+        const pupil = pupilGroup?.pupils.find(
+          (p) => p.id === record.pupilId.toString()
+        );
 
-        const subject = this.subjects.find((s) => s.id === record.subjectId);
+        const teacher = this.teachers.personnel.find(
+          (t) => t.id === record.teacherId
+        );
+        const subject = this.subjects.subjects.find(
+          (s) => s.id === record.subjectId
+        );
 
         if (pupil && teacher && subject) {
           studInfo.push({
@@ -142,8 +156,140 @@ export class Gradebooks {
       return studInfo;
     }
 
-    return [];
+    // return [];
   }
 }
 
 export default Gradebooks;
+
+//Plain JS
+
+// export class Gradebooks {
+//   constructor(groups, teachers, subjects) {
+//     this.groups = groups;
+//     this.teachers = teachers;
+//     this.subjects = subjects;
+//     this.gradebooks = [];
+//   }
+//   add(groupId) {
+//     let foundGroup = this.groups.groups.find((gr) => gr.id === groupId);
+//     foundGroup.records = [];
+//     this.gradebooks.push(foundGroup);
+
+//     return this.gradebooks.length - 1;
+//   }
+//   clear() {
+//     this.gradebooks = [];
+//   }
+//   addRecord(gradebookId, record) {
+//     if (gradebookId >= 0 && gradebookId < this.gradebooks.length) {
+//       this.gradebooks[gradebookId].records.push(record);
+//     }
+//   }
+//   read(gradebookId, pupilId) {
+//     const studentInfo = {
+//       name: "",
+//       records: [],
+//     };
+
+//     if (this.gradebooks[gradebookId]) {
+//       const gradebook = this.gradebooks[gradebookId];
+//       const studentRecords = gradebook.records.filter(
+//         (record) => record.pupilId === pupilId
+//       );
+
+//       if (studentRecords.length > 0) {
+//         const studentGroup = this.groups.groups.find(
+//           (group) => group.id === gradebook.id
+//         );
+
+//         console.log(this.groups);
+
+//         const student = studentGroup?.pupils.find(
+//           (pupil) => pupil.id === pupilId.toString()
+//         );
+
+//         console.log(student);
+//       }
+//     }
+
+//     if (gradebookId >= 0 && gradebookId < this.gradebooks.length) {
+//       const gradebook = this.gradebooks[gradebookId];
+//       const studentRecords = gradebook.records.filter(
+//         (record) => record.pupilId === pupilId
+//       );
+//       if (studentRecords.length > 0) {
+//         console.log(this.groups.groups);
+//         const studentGroup = this.groups.groups.find(
+//           (group) => group.id === gradebook.id
+//         );
+
+//         const student = studentGroup?.pupils.find(
+//           (pupil) => pupil.id === pupilId.toString()
+//         );
+
+//         if (student) {
+//           studentInfo.name = `${student.name.first} ${student.name.last}`;
+//           console.log(this.teachers);
+
+//           studentInfo.records = studentRecords.map((record) => {
+//             const teacher = this.teachers.personnel.find(
+//               (teacher) => teacher.id === record.teacherId
+//             );
+//             const subject = this.subjects.subjects.find(
+//               (subject) => subject.id === record.subjectId
+//             );
+//             console.log(subject);
+
+//             return {
+//               teacher: `${teacher?.name.first} ${teacher?.name.last}`,
+//               subject: subject?.title,
+//               lesson: record.lesson,
+//               mark: record.mark,
+//             };
+//           });
+//         }
+//       }
+//     }
+
+//     return studentInfo;
+//   }
+//   readAll(gradebookId) {
+//     if (gradebookId >= 0 && gradebookId < this.gradebooks.length) {
+//       const gradebook = this.gradebooks[gradebookId];
+//       console.log(gradebook);
+
+//       const studInfo = [];
+//       for (const record of gradebook.records) {
+//         const pupilGroup = this.groups.groups[0];
+
+//         console.log(pupilGroup);
+//         const pupil = pupilGroup?.pupils.find(
+//           (p) => p.id === record.pupilId.toString()
+//         );
+//         console.log(pupil);
+
+//         const teacher = this.teachers.personnel.find(
+//           (t) => t.id === record.teacherId
+//         );
+//         const subject = this.subjects.subjects.find(
+//           (s) => s.id === record.subjectId
+//         );
+//         if (pupil && teacher && subject) {
+//           studInfo.push({
+//             pupil: `${pupil.name.first} ${pupil.name.last}`,
+//             teacher: `${teacher.name.first} ${teacher.name.last}`,
+//             subject: subject.title,
+//             lesson: record.lesson,
+//             mark: record.mark,
+//           });
+//         }
+//       }
+//       return studInfo;
+//     }
+//     // return [];
+//   }
+// }
+// export default Gradebooks;
+
+//Plain JS

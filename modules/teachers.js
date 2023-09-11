@@ -1,4 +1,4 @@
-import { validateProfile } from "../utils/validator.js";
+import { validateProfile, } from "../utils/validator.js";
 import Personnel from "./personnel.js";
 class Teachers extends Personnel {
     constructor() {
